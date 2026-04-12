@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-import base64
 from sklearn.linear_model import LinearRegression
 
 # background function
+import base64
+
 def set_bg():
     with open("bg.jpg", "rb") as f:
         data = f.read()
@@ -14,12 +15,16 @@ def set_bg():
     .stApp {{
         background-image: url("data:image/jpg;base64,{encoded}");
         background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }}
     </style>
     """
+
     st.markdown(page_bg, unsafe_allow_html=True)
-    
-    set_bg()
+
+# ✅ CALL FUNCTION HERE
+set_bg()
 
 # Load data
 data = pd.read_csv("cooling_data.csv")
