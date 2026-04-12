@@ -1,32 +1,42 @@
 import streamlit as st
 import pandas as pd
+import base64
 from sklearn.linear_model import LinearRegression
 
-# background function
-import base64
+# ===== PAGE CONFIG =====
+st.set_page_config(page_title="Cooling Tower AI", layout="centered")
 
+# ===== BACKGROUND IMAGE =====
 def set_bg():
     with open("bg.jpg", "rb") as f:
         data = f.read()
     encoded = base64.b64encode(data).decode()
 
-    page_bg = f"""
+    st.markdown(f"""
     <style>
-    .stApp {{
+    [data-testid="stAppViewContainer"] {{
         background-image: url("data:image/jpg;base64,{encoded}");
         background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }}
+
+    /* Make content readable */
+    [data-testid="stHeader"], .stToolbar {{
+        background: transparent;
+    }}
+
+    .stApp {{
+        background-color: rgba(0,0,0,0.4);
+    }}
     </style>
-    """
+    """, unsafe_allow_html=True)
 
-    st.markdown(page_bg, unsafe_allow_html=True)
-
-# ✅ CALL FUNCTION HERE
+# 👉 CALL FUNCTION
 set_bg()
 
-# Load data
+# ===== LOAD DATA =====
 data = pd.read_csv("cooling_data.csv")
 
 X = data[['Load', 'Ambient_Temp', 'RPM', 'Oil_Condition']]
@@ -35,13 +45,16 @@ y = data['Temperature']
 model = LinearRegression()
 model.fit(X, y)
 
-st.title("Cooling Tower AI Predictor")
+# ===== UI =====
+st.title("⚙️ Cooling Tower AI Predictor")
 
-load = st.slider("Load", 50, 100)
-temp = st.slider("Ambient Temp", 25, 50)
-rpm = st.slider("RPM", 1200, 1800)
-oil = st.slider("Oil Condition", 40, 100)
+st.sidebar.header("Input Parameters")
 
-if st.button("Predict"):
+load = st.sidebar.slider("Load", 50, 100)
+temp = st.sidebar.slider("Ambient Temp", 25, 50)
+rpm = st.sidebar.slider("RPM", 1200, 1800)
+oil = st.sidebar.slider("Oil Condition", 40, 100)
+
+if st.sidebar.button("Predict"):
     result = model.predict([[load, temp, rpm, oil]])
-    st.success(f"Predicted Temperature: {result[0]:.2f}")
+    st.success(f"Predicted Temperature: {result[0]:.2f} °C")
