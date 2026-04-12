@@ -18,6 +18,9 @@ def set_bg():
     </style>
     """
     st.markdown(page_bg, unsafe_allow_html=True)
+    
+    set_bg()
+
 # Load data
 data = pd.read_csv("cooling_data.csv")
 
