@@ -46,7 +46,7 @@ model = LinearRegression()
 model.fit(X, y)
 
 # ===== UI =====
-st.title("⚙️ Cooling Tower AI Predictor")
+st.title("⚙️ Cooling Tower gear temp. AI Predictor")
 
 st.sidebar.header("Input Parameters")
 
