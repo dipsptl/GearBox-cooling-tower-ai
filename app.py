@@ -70,3 +70,17 @@ oil = st.slider("Oil Condition", 40, 100)
 if st.button("Predict Temperature"):
     result = model.predict([[load, temp, rpm, oil]])
     st.success(f"Predicted Temperature: {result[0]:.2f} °C")
+
+st.subheader("🤖 Ask AI Assistant")
+
+user_question = st.text_input("Ask about cooling tower:")
+
+if user_question:
+    if "temperature" in user_question.lower():
+        st.write("High temperature may be due to high load, poor oil condition, or high ambient temperature.")
+    elif "rpm" in user_question.lower():
+        st.write("Higher RPM increases heat. Maintain optimal RPM to reduce temperature.")
+    elif "oil" in user_question.lower():
+        st.write("Oil condition affects lubrication. Poor oil increases friction and heat.")
+    else:
+        st.write("Please check load, RPM, and oil condition for better performance.")
