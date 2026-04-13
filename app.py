@@ -41,7 +41,7 @@ set_bg()
 st.markdown("""
 <h1 style='
     text-align: center;
-    color: #E8F1FF;
+    color: #A8D8FF;
     font-size: 42px;
     font-weight: 700;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
