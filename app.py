@@ -1,54 +1,15 @@
 import streamlit as st
 import pandas as pd
-import base64
 from sklearn.linear_model import LinearRegression
 
-# ===== PAGE SETTING =====
+# ===== PAGE SETTINGS =====
 st.set_page_config(page_title="Cooling Tower AI", layout="centered")
 
-# ===== BACKGROUND FUNCTION =====
-def set_bg():
-    with open("bg.jpg", "rb") as f:
-        data = f.read()
-    encoded = base64.b64encode(data).decode()
-
-    st.markdown(f"""
-    <style>
-    [data-testid="stAppViewContainer"] {{
-        background-image: url("data:image/jpg;base64,{encoded}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }}
-
-    /* transparent header */
-    [data-testid="stHeader"], .stToolbar {{
-        background: transparent;
-    }}
-
-    /* dark overlay for readability */
-    .stApp {{
-        background-color: rgba(0,0,0,0.4);
-    }}
-    </style>
-    """, unsafe_allow_html=True)
-
-# 👉 APPLY BACKGROUND
-set_bg()
-
-# ===== TITLE (STYLISH) =====
+# ===== TITLE =====
 st.markdown("""
-<h1 style='
-    text-align: center;
-    color: #E8F1FF;
-    font-size: 42px;
-    font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-    letter-spacing: 1px;
-'>
-⚙️ Cooling Tower Gear Temp. AI Predictor
-</h1>
+<h2 style='text-align: center; color: #00C9A7;'>
+⚙️ Cooling Tower Gear Temp AI Predictor
+</h2>
 """, unsafe_allow_html=True)
 
 # ===== LOAD DATA =====
@@ -60,15 +21,23 @@ y = data['Temperature']
 model = LinearRegression()
 model.fit(X, y)
 
-# ===== SIDEBAR INPUT =====
-st.sidebar.header("Input Parameters")
+# ===== INPUTS =====
+st.subheader("Enter Parameters")
 
-load = st.sidebar.slider("Load", 50, 100)
-temp = st.sidebar.slider("Ambient Temp", 25, 50)
-rpm = st.sidebar.slider("RPM", 1200, 1800)
-oil = st.sidebar.slider("Oil Condition", 40, 100)
+load = st.slider("Load", 50, 100)
+temp = st.slider("Ambient Temperature", 25, 50)
+rpm = st.slider("RPM", 1200, 1800)
+oil = st.slider("Oil Condition", 40, 100)
 
 # ===== PREDICTION =====
-if st.sidebar.button("Predict"):
+if st.button("Predict Temperature"):
     result = model.predict([[load, temp, rpm, oil]])
     st.success(f"Predicted Temperature: {result[0]:.2f} °C")
+
+# ===== FOOTER =====
+st.markdown("""
+<hr>
+<p style='text-align:center; font-size:12px; color:gray;'>
+Built with AI | Mobile Friendly Version
+</p>
+""", unsafe_allow_html=True)
