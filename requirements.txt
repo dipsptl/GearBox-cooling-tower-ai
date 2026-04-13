@@ -1,4 +1,4 @@
 streamlit
 pandas
 scikit-learn
-matplotlib
+openai>=1.0.0
