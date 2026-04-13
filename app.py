@@ -1,15 +1,52 @@
 import streamlit as st
 import pandas as pd
+import base64
 from sklearn.linear_model import LinearRegression
 
-# ===== PAGE SETTINGS =====
+# ===== PAGE SETTING =====
 st.set_page_config(page_title="Cooling Tower AI", layout="centered")
 
-# ===== TITLE =====
+# ===== BACKGROUND (JPG) =====
+def set_bg():
+    with open("bg.jpg", "rb") as f:
+        data = f.read()
+    encoded = base64.b64encode(data).decode()
+
+    st.markdown(f"""
+    <style>
+    [data-testid="stAppViewContainer"] {{
+        background-image: url("data:image/jpg;base64,{encoded}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
+
+    /* transparent header */
+    [data-testid="stHeader"], .stToolbar {{
+        background: transparent;
+    }}
+
+    /* slight dark overlay for readability */
+    .stApp {{
+        background-color: rgba(0,0,0,0.3);
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+# 👉 APPLY BACKGROUND
+set_bg()
+
+# ===== TITLE (DARK ORANGE) =====
 st.markdown("""
-<h2 style='text-align: center; color: #E8F1FF;'>
+<h1 style='
+    text-align: center;
+    color: #FF8C00;
+    font-size: 40px;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+'>
 ⚙️ Cooling Tower Gear Temp AI Predictor
-</h2>
+</h1>
 """, unsafe_allow_html=True)
 
 # ===== LOAD DATA =====
@@ -25,7 +62,7 @@ model.fit(X, y)
 st.subheader("Enter Parameters")
 
 load = st.slider("Load", 50, 100)
-temp = st.slider("Ambient Temperature", 25, 50)
+temp = st.slider("Ambient Temp", 25, 50)
 rpm = st.slider("RPM", 1200, 1800)
 oil = st.slider("Oil Condition", 40, 100)
 
@@ -33,11 +70,3 @@ oil = st.slider("Oil Condition", 40, 100)
 if st.button("Predict Temperature"):
     result = model.predict([[load, temp, rpm, oil]])
     st.success(f"Predicted Temperature: {result[0]:.2f} °C")
-
-# ===== FOOTER =====
-st.markdown("""
-<hr>
-<p style='text-align:center; font-size:12px; color:gray;'>
-Built with AI | Mobile Friendly Version
-</p>
-""", unsafe_allow_html=True)
