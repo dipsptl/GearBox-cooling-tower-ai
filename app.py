@@ -7,7 +7,7 @@ st.set_page_config(page_title="Cooling Tower AI", layout="centered")
 
 # ===== TITLE =====
 st.markdown("""
-<h2 style='text-align: center; color: #00C9A7;'>
+<h2 style='text-align: center; color: #E8F1FF;'>
 ⚙️ Cooling Tower Gear Temp AI Predictor
 </h2>
 """, unsafe_allow_html=True)
