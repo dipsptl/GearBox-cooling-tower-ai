@@ -66,21 +66,29 @@ temp = st.slider("Ambient Temp", 25, 50)
 rpm = st.slider("RPM", 1200, 1800)
 oil = st.slider("Oil Condition", 40, 100)
 
-# ===== PREDICTION =====
-if st.button("Predict Temperature"):
-    result = model.predict([[load, temp, rpm, oil]])
-    st.success(f"Predicted Temperature: {result[0]:.2f} °C")
+from openai import OpenAI
 
-st.subheader("🤖 Ask AI Assistant")
+# ===== LLM SETUP =====
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+st.subheader("🤖 AI Assistant (Ask Anything)")
 
 user_question = st.text_input("Ask about cooling tower:")
 
 if user_question:
-    if "temperature" in user_question.lower():
-        st.write("High temperature may be due to high load, poor oil condition, or high ambient temperature.")
-    elif "rpm" in user_question.lower():
-        st.write("Higher RPM increases heat. Maintain optimal RPM to reduce temperature.")
-    elif "oil" in user_question.lower():
-        st.write("Oil condition affects lubrication. Poor oil increases friction and heat.")
-    else:
-        st.write("Please check load, RPM, and oil condition for better performance.")
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are an expert mechanical engineer specializing in cooling towers, gearboxes, and industrial systems. Give clear and practical answers."
+            },
+            {
+                "role": "user",
+                "content": user_question
+            }
+        ]
+    )
+
+    answer = response.choices[0].message.content
+    st.write(answer)
