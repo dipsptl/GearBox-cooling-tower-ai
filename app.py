@@ -103,9 +103,11 @@ with left:
 
 # ===== RIGHT SIDE =====
 with right:
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
-    # WHITE TEMP
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
+
+    pred_value = model.predict([[load, temp, rpm, oil]])[0]
+
     st.markdown(f"""
     <h2 style="color:white;">
         {pred_value:.1f}
@@ -120,7 +122,6 @@ st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_a
     else:
         st.success("🟢 Safe")
 
-    # EXTRA GAP
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     st.markdown('<div class="section-title">💡 Suggestions</div>', unsafe_allow_html=True)
