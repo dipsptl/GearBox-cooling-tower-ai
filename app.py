@@ -38,17 +38,42 @@ set_bg()
 
 # ===== TITLE (JOINED GEARS) =====
 st.markdown("""
+<style>
+@keyframes spin {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.gear-big {
+    display: inline-block;
+    font-size: 42px;
+    color: #FF8C00;
+    animation: spin 6s linear infinite;
+}
+
+.gear-small {
+    display: inline-block;
+    font-size: 28px;
+    color: black;
+    margin-left: -22px;
+    animation: spin 4s linear infinite reverse;
+}
+</style>
+
 <div style="text-align:center; margin-top:-50px;">
-    <h1 style="font-size:40px; font-weight:700;">
-        <span style="color:#FF8C00;">⚙️</span>
-        <span style="color:black; margin-left:-24px; font-size:30px;">⚙️</span>
-        <span style="color:#FF8C00; margin-left:12px;">
-            Cooling Tower Gear Temp. AI Dashboard
-        </span>
-    </h1>
+    <span class="gear-big">⚙️</span>
+    <span class="gear-small">⚙️</span>
+
+    <span style="
+        color:#FF8C00;
+        font-size:40px;
+        font-weight:700;
+        margin-left:12px;
+    ">
+        Cooling Tower Gear Temp. AI Dashboard
+    </span>
 </div>
 """, unsafe_allow_html=True)
-
 # ===== LOAD DATA =====
 data = pd.read_csv("cooling_data.csv")
 
@@ -76,12 +101,12 @@ with right:
 
     pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
-    st.markdown(f"""
-    <h2 style="color:#FFD580;">
-        {pred_value:.1f}
-        <span style="font-size:18px;">°C</span>
-    </h2>
-    """, unsafe_allow_html=True)
+   st.markdown(f"""
+<h2 style="color:white;">
+    {pred_value:.1f}
+    <span style="font-size:18px;">°C</span>
+</h2>
+""", unsafe_allow_html=True)
 
     if pred_value > 90:
         st.error("🔴 Danger")
@@ -89,7 +114,8 @@ with right:
         st.warning("🟠 Warning")
     else:
         st.success("🟢 Safe")
-
+        
+st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown('<div class="section-title">💡 Suggestions</div>', unsafe_allow_html=True)
 
     if rpm > 1500:
