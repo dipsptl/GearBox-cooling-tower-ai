@@ -94,6 +94,8 @@ left, gap, right = st.columns([1, 0.15, 1])
 
 # ===== LEFT SIDE =====
 with left:
+    st.markdown("<br><br>", unsafe_allow_html=True)
+   
     st.markdown('<div class="section-title">⚙️ Enter Parameters</div>', unsafe_allow_html=True)
 
     load = st.slider("Load", 50, 100)
@@ -103,9 +105,10 @@ with left:
 
 # ===== RIGHT SIDE =====
 with right:
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
 
+    st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
+    
     pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
     st.markdown(f"""
