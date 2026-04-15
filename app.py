@@ -122,3 +122,34 @@ ax.set_xlabel("Actual Temperature")
 ax.set_ylabel("Predicted Temperature")
 
 st.pyplot(fig)
+
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+import tempfile
+
+# ===== PDF GENERATION =====
+def create_pdf(load, temp, rpm, oil, result):
+    file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    doc = SimpleDocTemplate(file.name)
+
+    styles = getSampleStyleSheet()
+    content = []
+
+    content.append(Paragraph("Cooling Tower Report", styles['Title']))
+    content.append(Paragraph(f"Load: {load}", styles['Normal']))
+    content.append(Paragraph(f"Ambient Temp: {temp}", styles['Normal']))
+    content.append(Paragraph(f"RPM: {rpm}", styles['Normal']))
+    content.append(Paragraph(f"Oil Condition: {oil}", styles['Normal']))
+    content.append(Paragraph(f"Predicted Temperature: {result:.2f} °C", styles['Normal']))
+
+    doc.build(content)
+    return file.name
+
+
+# ===== DOWNLOAD BUTTON =====
+if st.button("Download PDF Report"):
+    result = model.predict([[load, temp, rpm, oil]])[0]
+    pdf_file = create_pdf(load, temp, rpm, oil, result)
+
+    with open(pdf_file, "rb") as f:
+        st.download_button("📥 Download Report", f, file_name="report.pdf")
