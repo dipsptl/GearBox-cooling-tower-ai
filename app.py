@@ -36,44 +36,45 @@ def set_bg():
 
 set_bg()
 
-# ===== TITLE (JOINED GEARS) =====
+# ===== ANIMATED TITLE =====
 st.markdown("""
 <style>
 @keyframes spin {
-    from {transform: rotate(0deg);}
-    to {transform: rotate(360deg);}
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
 }
 
-.gear-big {
-    display: inline-block;
-    font-size: 42px;
-    color: #FF8C00;
-    animation: spin 6s linear infinite;
+.gear1 {
+  display: inline-block;
+  font-size: 42px;
+  color: #FF8C00;
+  animation: spin 6s linear infinite;
 }
 
-.gear-small {
-    display: inline-block;
-    font-size: 28px;
-    color: black;
-    margin-left: -22px;
-    animation: spin 4s linear infinite reverse;
+.gear2 {
+  display: inline-block;
+  font-size: 28px;
+  color: black;
+  margin-left: -18px;
+  animation: spin 4s linear infinite;
 }
 </style>
 
 <div style="text-align:center; margin-top:-50px;">
-    <span class="gear-big">⚙️</span>
-    <span class="gear-small">⚙️</span>
+  <span class="gear1">⚙️</span>
+  <span class="gear2">⚙️</span>
 
-    <span style="
-        color:#FF8C00;
-        font-size:40px;
-        font-weight:700;
-        margin-left:12px;
-    ">
-        Cooling Tower Gear Temp. AI Dashboard
-    </span>
+  <span style="
+    color:#FF8C00;
+    font-size:40px;
+    font-weight:700;
+    margin-left:10px;
+  ">
+    Cooling Tower Gear Temp. AI Dashboard
+  </span>
 </div>
 """, unsafe_allow_html=True)
+
 # ===== LOAD DATA =====
 data = pd.read_csv("cooling_data.csv")
 
@@ -101,12 +102,13 @@ with right:
 
     pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
-   st.markdown(f"""
-<h2 style="color:white;">
-    {pred_value:.1f}
-    <span style="font-size:18px;">°C</span>
-</h2>
-""", unsafe_allow_html=True)
+    # WHITE TEMP
+    st.markdown(f"""
+    <h2 style="color:white;">
+        {pred_value:.1f}
+        <span style="font-size:18px;">°C</span>
+    </h2>
+    """, unsafe_allow_html=True)
 
     if pred_value > 90:
         st.error("🔴 Danger")
@@ -114,8 +116,10 @@ with right:
         st.warning("🟠 Warning")
     else:
         st.success("🟢 Safe")
-        
-st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # EXTRA GAP
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
     st.markdown('<div class="section-title">💡 Suggestions</div>', unsafe_allow_html=True)
 
     if rpm > 1500:
@@ -130,7 +134,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
     if temp > 35:
         st.warning("High ambient temp – improve cooling")
 
-# ===== GRAPH SECTION =====
+# ===== GRAPHS =====
 st.markdown("---")
 st.markdown('<div class="section-title">📈 Analysis</div>', unsafe_allow_html=True)
 
