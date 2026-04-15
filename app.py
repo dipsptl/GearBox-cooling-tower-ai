@@ -1,10 +1,14 @@
 import streamlit as st
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 import base64
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+import tempfile
 
 # ===== PAGE SETTINGS =====
-st.set_page_config(page_title="Cooling Tower AI", layout="centered")
+st.set_page_config(page_title="Cooling Tower AI", layout="wide")
 
 # ===== BACKGROUND =====
 def set_bg():
@@ -30,7 +34,7 @@ set_bg()
 # ===== TITLE =====
 st.markdown("""
 <h2 style='text-align: center; color: #FF8C00;'>
-⚙️ Cooling Tower Gear Temp AI Predictor
+⚙️ Cooling Tower Gear Temp AI Dashboard
 </h2>
 """, unsafe_allow_html=True)
 
@@ -43,118 +47,64 @@ y = data['Temperature']
 model = LinearRegression()
 model.fit(X, y)
 
-# ===== INPUT =====
-st.subheader("Enter Parameters")
+# ===== INPUT SECTION =====
+st.sidebar.header("Enter Parameters")
 
-load = st.slider("Load", 50, 100)
-temp = st.slider("Ambient Temp", 25, 50)
-rpm = st.slider("RPM", 1200, 1800)
-oil = st.slider("Oil Condition", 40, 100)
+load = st.sidebar.slider("Load", 50, 100)
+temp = st.sidebar.slider("Ambient Temp", 25, 50)
+rpm = st.sidebar.slider("RPM", 1200, 1800)
+oil = st.sidebar.slider("Oil Condition", 40, 100)
 
-# ===== PREDICTION =====
-if st.button("Predict Temperature"):
-    result = model.predict([[load, temp, rpm, oil]])
-    st.success(f"Predicted Temperature: {result[0]:.2f} °C")
-
-# ===== WARNING SYSTEM =====
-if st.button("Check Status"):
-    result = model.predict([[load, temp, rpm, oil]])
-    temp_value = result[0]
-
-    if temp_value > 90:
-        st.error(f"🔴 Danger! Temperature is too high: {temp_value:.2f} °C")
-    elif temp_value > 80:
-        st.warning(f"🟠 Warning! Temperature is high: {temp_value:.2f} °C")
-    else:
-        st.success(f"🟢 Safe Temperature: {temp_value:.2f} °C")
-
-# ===== SMART SUGGESTION SYSTEM =====
-st.subheader("💡 Smart Suggestions")
-
-suggestions = []
-
-if rpm > 1500:
-    suggestions.append("⚠️ High RPM detected. Consider reducing RPM to control heat.")
-
-if oil < 60:
-    suggestions.append("🛢️ Oil condition is poor. Replace or maintain lubrication.")
-
-if load > 75:
-    suggestions.append("📦 Load is high. Reducing load can help lower temperature.")
-
-if temp > 35:
-    suggestions.append("🌡️ High ambient temperature. Improve cooling or ventilation.")
-
-if suggestions:
-    for s in suggestions:
-        st.warning(s)
-else:
-    st.success("✅ All parameters are within optimal range.")
-# ===== BASIC AI ASSISTANT (NO API) =====
-st.subheader("🤖 AI Assistant (Basic)")
-
-question = st.text_input("Ask about cooling tower:")
-
-if question:
-    q = question.lower()
-
-    if "temperature" in q:
-        st.write("High temperature can be due to high load, high RPM, or poor oil condition.")
-    elif "rpm" in q:
-        st.write("Higher RPM increases heat. Maintain optimal RPM to control temperature.")
-    elif "oil" in q:
-        st.write("Poor oil condition increases friction and heat. Regular maintenance is important.")
-    elif "load" in q:
-        st.write("Higher load increases stress on gearbox and raises temperature.")
-    else:
-        st.write("Check load, RPM, ambient temperature, and oil condition for better performance.")
-
-import matplotlib.pyplot as plt
-
-# ===== GRAPH =====
-import matplotlib.pyplot as plt
-
-st.subheader("📊 Advanced Dashboard")
-
-# ===== KPI METRICS =====
 pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
+# ===== DASHBOARD LAYOUT =====
 col1, col2 = st.columns(2)
 
+# ===== LEFT SIDE =====
 with col1:
+    st.subheader("📌 Prediction Summary")
+
     st.metric("Predicted Temp (°C)", f"{pred_value:.2f}")
 
-with col2:
     if pred_value > 90:
-        st.metric("Status", "🔴 Danger")
+        st.error("🔴 Danger")
     elif pred_value > 80:
-        st.metric("Status", "🟠 Warning")
+        st.warning("🟠 Warning")
     else:
-        st.metric("Status", "🟢 Safe")
+        st.success("🟢 Safe")
 
-# ===== CHART 1 =====
-st.write("Load vs Temperature")
+    # ===== SMART SUGGESTIONS =====
+    st.subheader("💡 Suggestions")
 
-fig1, ax1 = plt.subplots()
-ax1.scatter(data['Load'], data['Temperature'])
-ax1.set_xlabel("Load")
-ax1.set_ylabel("Temperature")
-st.pyplot(fig1)
+    if rpm > 1500:
+        st.warning("Reduce RPM to control heat")
 
-# ===== CHART 2 =====
-st.write("RPM vs Temperature")
+    if oil < 60:
+        st.warning("Oil condition poor – maintenance needed")
 
-fig2, ax2 = plt.subplots()
-ax2.scatter(data['RPM'], data['Temperature'])
-ax2.set_xlabel("RPM")
-ax2.set_ylabel("Temperature")
-st.pyplot(fig2)
+    if load > 75:
+        st.warning("High load – reduce load")
 
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-import tempfile
+    if temp > 35:
+        st.warning("High ambient temp – improve cooling")
 
-# ===== PDF GENERATION =====
+# ===== RIGHT SIDE =====
+with col2:
+    st.subheader("📊 Analysis")
+
+    fig1, ax1 = plt.subplots()
+    ax1.scatter(data['Load'], data['Temperature'])
+    ax1.set_xlabel("Load")
+    ax1.set_ylabel("Temperature")
+    st.pyplot(fig1)
+
+    fig2, ax2 = plt.subplots()
+    ax2.scatter(data['RPM'], data['Temperature'])
+    ax2.set_xlabel("RPM")
+    ax2.set_ylabel("Temperature")
+    st.pyplot(fig2)
+
+# ===== PDF FUNCTION =====
 def create_pdf(load, temp, rpm, oil, result):
     file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     doc = SimpleDocTemplate(file.name)
@@ -172,11 +122,9 @@ def create_pdf(load, temp, rpm, oil, result):
     doc.build(content)
     return file.name
 
-
 # ===== DOWNLOAD BUTTON =====
-if st.button("Download PDF Report"):
-    result = model.predict([[load, temp, rpm, oil]])[0]
-    pdf_file = create_pdf(load, temp, rpm, oil, result)
+if st.button("📁 Download PDF Report"):
+    pdf_file = create_pdf(load, temp, rpm, oil, pred_value)
 
     with open(pdf_file, "rb") as f:
-        st.download_button("📥 Download Report", f, file_name="report.pdf")
+        st.download_button("Download Report", f, file_name="report.pdf")
