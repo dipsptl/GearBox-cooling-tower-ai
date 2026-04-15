@@ -37,6 +37,7 @@ def set_bg():
 set_bg()
 
 # ===== ANIMATED TITLE =====
+
 st.markdown("""
 <style>
 @keyframes spin {
@@ -49,6 +50,7 @@ st.markdown("""
   font-size: 42px;
   color: #FF8C00;
   animation: spin 6s linear infinite;
+  vertical-align: middle;
 }
 
 .gear2 {
@@ -57,19 +59,22 @@ st.markdown("""
   color: black;
   margin-left: -18px;
   animation: spin 4s linear infinite;
+  vertical-align: middle;
+}
+
+.title-text {
+  color:#FF8C00;
+  font-size:40px;
+  font-weight:700;
+  margin-left:12px;
+  vertical-align: middle;
 }
 </style>
 
 <div style="text-align:center; margin-top:-50px;">
   <span class="gear1">⚙️</span>
   <span class="gear2">⚙️</span>
-
-  <span style="
-    color:#FF8C00;
-    font-size:40px;
-    font-weight:700;
-    margin-left:10px;
-  ">
+  <span class="title-text">
     Cooling Tower Gear Temp. AI Dashboard
   </span>
 </div>
@@ -98,10 +103,8 @@ with left:
 
 # ===== RIGHT SIDE =====
 with right:
-    st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
-
-    pred_value = model.predict([[load, temp, rpm, oil]])[0]
-
+    st.markdown("<br>", unsafe_allow_html=True)
+st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
     # WHITE TEMP
     st.markdown(f"""
     <h2 style="color:white;">
