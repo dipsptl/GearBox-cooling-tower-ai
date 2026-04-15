@@ -56,6 +56,18 @@ if st.button("Predict Temperature"):
     result = model.predict([[load, temp, rpm, oil]])
     st.success(f"Predicted Temperature: {result[0]:.2f} °C")
 
+# ===== WARNING SYSTEM =====
+if st.button("Check Status"):
+    result = model.predict([[load, temp, rpm, oil]])
+    temp_value = result[0]
+
+    if temp_value > 90:
+        st.error(f"🔴 Danger! Temperature is too high: {temp_value:.2f} °C")
+    elif temp_value > 80:
+        st.warning(f"🟠 Warning! Temperature is high: {temp_value:.2f} °C")
+    else:
+        st.success(f"🟢 Safe Temperature: {temp_value:.2f} °C")
+
 # ===== BASIC AI ASSISTANT (NO API) =====
 st.subheader("🤖 AI Assistant (Basic)")
 
