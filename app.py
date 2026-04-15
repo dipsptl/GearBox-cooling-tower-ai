@@ -17,5 +17,16 @@ def set_bg():
             data = f.read()
         encoded = base64.b64encode(data).decode()
 
-        st.markdown(f"""
+        page_bg = f"""
         <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{encoded}");
+            background-size: cover;
+            background-position: center;
+        }}
+        </style>
+        """
+
+        st.markdown(page_bg, unsafe_allow_html=True)
+    except:
+        pass
