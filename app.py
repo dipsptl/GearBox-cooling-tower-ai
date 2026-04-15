@@ -68,6 +68,28 @@ if st.button("Check Status"):
     else:
         st.success(f"🟢 Safe Temperature: {temp_value:.2f} °C")
 
+# ===== SMART SUGGESTION SYSTEM =====
+st.subheader("💡 Smart Suggestions")
+
+suggestions = []
+
+if rpm > 1500:
+    suggestions.append("⚠️ High RPM detected. Consider reducing RPM to control heat.")
+
+if oil < 60:
+    suggestions.append("🛢️ Oil condition is poor. Replace or maintain lubrication.")
+
+if load > 75:
+    suggestions.append("📦 Load is high. Reducing load can help lower temperature.")
+
+if temp > 35:
+    suggestions.append("🌡️ High ambient temperature. Improve cooling or ventilation.")
+
+if suggestions:
+    for s in suggestions:
+        st.warning(s)
+else:
+    st.success("✅ All parameters are within optimal range.")
 # ===== BASIC AI ASSISTANT (NO API) =====
 st.subheader("🤖 AI Assistant (Basic)")
 
