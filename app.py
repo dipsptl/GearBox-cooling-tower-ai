@@ -74,3 +74,17 @@ if question:
         st.write("Higher load increases stress on gearbox and raises temperature.")
     else:
         st.write("Check load, RPM, ambient temperature, and oil condition for better performance.")
+
+import matplotlib.pyplot as plt
+
+# ===== GRAPH =====
+st.subheader("📊 Prediction vs Actual")
+
+pred = model.predict(X)
+
+fig, ax = plt.subplots()
+ax.scatter(y, pred)
+ax.set_xlabel("Actual Temperature")
+ax.set_ylabel("Predicted Temperature")
+
+st.pyplot(fig)
