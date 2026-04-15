@@ -128,7 +128,9 @@ with right:
     st.write("")   # 👈 clean gap
 
     st.markdown('<div class="section-title">💡 Suggestions</div>', unsafe_allow_html=True)
-
+    
+    st.write(" ") 
+    
     if rpm > 1500:
         st.warning("Reduce RPM to control heat")
 
