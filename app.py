@@ -10,14 +10,16 @@ import tempfile
 # ===== PAGE SETTINGS =====
 st.set_page_config(page_title="Cooling Tower AI", layout="wide")
 
-# ===== BACKGROUND =====
+st.write("")  # keep UI active
+
+# ===== BACKGROUND (SAFE) =====
 def set_bg():
     try:
         with open("bg.jpg", "rb") as f:
             data = f.read()
         encoded = base64.b64encode(data).decode()
 
-        page_bg = f"""
+        bg_style = f"""
         <style>
         .stApp {{
             background-image: url("data:image/jpg;base64,{encoded}");
@@ -27,6 +29,115 @@ def set_bg():
         </style>
         """
 
-        st.markdown(page_bg, unsafe_allow_html=True)
+        st.markdown(bg_style, unsafe_allow_html=True)
     except:
-        pass
+        st.write("")  # prevent crash
+
+set_bg()
+
+# ===== TITLE =====
+st.markdown("""
+<div style="text-align:center; margin-top:-20px;">
+    <h1 style="font-size:40px; font-weight:700;">
+        <span style="color:#FF8C00;">⚙️</span>
+        <span style="color:black; font-size:26px;">⚙️</span>
+        <span style="color:#FF8C00;"> Cooling Tower AI Dashboard</span>
+    </h1>
+</div>
+""", unsafe_allow_html=True)
+
+# ===== LOAD DATA =====
+data = pd.read_csv("cooling_data.csv")
+
+X = data[['Load', 'Ambient_Temp', 'RPM', 'Oil_Condition']]
+y = data['Temperature']
+
+model = LinearRegression()
+model.fit(X, y)
+
+# ===== LAYOUT =====
+left, right = st.columns(2)
+
+# ===== INPUT =====
+with left:
+    st.markdown("## 🔧 Enter Parameters")
+
+    load = st.slider("Load", 50, 100)
+    temp = st.slider("Ambient Temp", 25, 50)
+    rpm = st.slider("RPM", 1200, 1800)
+    oil = st.slider("Oil Condition", 40, 100)
+
+# ===== RESULT =====
+with right:
+    pred_value = model.predict([[load, temp, rpm, oil]])[0]
+
+    st.markdown("### 📊 Prediction Summary")
+    st.metric("Temperature (°C)", f"{pred_value:.2f}")
+
+    if pred_value > 90:
+        st.error("🔴 Danger")
+    elif pred_value > 80:
+        st.warning("🟠 Warning")
+    else:
+        st.success("🟢 Safe")
+
+    st.markdown("### 💡 Suggestions")
+
+    if rpm > 1500:
+        st.warning("Reduce RPM to control heat")
+
+    if oil < 60:
+        st.warning("Oil condition poor – maintenance needed")
+
+    if load > 75:
+        st.warning("High load – reduce load")
+
+    if temp > 35:
+        st.warning("High ambient temp – improve cooling")
+
+# ===== GRAPHS =====
+st.markdown("---")
+st.subheader("📈 Analysis")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    fig1, ax1 = plt.subplots()
+    ax1.scatter(data['Load'], data['Temperature'])
+    ax1.set_xlabel("Load")
+    ax1.set_ylabel("Temperature")
+    st.pyplot(fig1)
+
+with col2:
+    fig2, ax2 = plt.subplots()
+    ax2.scatter(data['RPM'], data['Temperature'])
+    ax2.set_xlabel("RPM")
+    ax2.set_ylabel("Temperature")
+    st.pyplot(fig2)
+
+# ===== PDF =====
+def create_pdf(load, temp, rpm, oil, result):
+    file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    doc = SimpleDocTemplate(file.name)
+
+    styles = getSampleStyleSheet()
+    content = []
+
+    content.append(Paragraph("Cooling Tower Report", styles['Title']))
+    content.append(Paragraph(f"Load: {load}", styles['Normal']))
+    content.append(Paragraph(f"Ambient Temp: {temp}", styles['Normal']))
+    content.append(Paragraph(f"RPM: {rpm}", styles['Normal']))
+    content.append(Paragraph(f"Oil Condition: {oil}", styles['Normal']))
+    content.append(Paragraph(f"Temperature: {result:.2f} °C", styles['Normal']))
+
+    doc.build(content)
+    return file.name
+
+# ===== DOWNLOAD =====
+st.markdown("---")
+
+if st.button("📁 Download PDF Report"):
+    pdf_file = create_pdf(load, temp, rpm, oil, pred_value)
+
+    with open(pdf_file, "rb") as f:
+        st.download_button("Download Report", f, file_name="report.pdf")
