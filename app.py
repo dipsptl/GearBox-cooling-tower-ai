@@ -112,16 +112,43 @@ if question:
 import matplotlib.pyplot as plt
 
 # ===== GRAPH =====
-st.subheader("📊 Prediction vs Actual")
+import matplotlib.pyplot as plt
 
-pred = model.predict(X)
+st.subheader("📊 Advanced Dashboard")
 
-fig, ax = plt.subplots()
-ax.scatter(y, pred)
-ax.set_xlabel("Actual Temperature")
-ax.set_ylabel("Predicted Temperature")
+# ===== KPI METRICS =====
+pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
-st.pyplot(fig)
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric("Predicted Temp (°C)", f"{pred_value:.2f}")
+
+with col2:
+    if pred_value > 90:
+        st.metric("Status", "🔴 Danger")
+    elif pred_value > 80:
+        st.metric("Status", "🟠 Warning")
+    else:
+        st.metric("Status", "🟢 Safe")
+
+# ===== CHART 1 =====
+st.write("Load vs Temperature")
+
+fig1, ax1 = plt.subplots()
+ax1.scatter(data['Load'], data['Temperature'])
+ax1.set_xlabel("Load")
+ax1.set_ylabel("Temperature")
+st.pyplot(fig1)
+
+# ===== CHART 2 =====
+st.write("RPM vs Temperature")
+
+fig2, ax2 = plt.subplots()
+ax2.scatter(data['RPM'], data['Temperature'])
+ax2.set_xlabel("RPM")
+ax2.set_ylabel("Temperature")
+st.pyplot(fig2)
 
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
