@@ -7,6 +7,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 import tempfile
 
+# ===== PAGE SETTINGS =====
 st.set_page_config(page_title="Cooling Tower AI", layout="wide")
 
 # ===== BACKGROUND =====
@@ -35,50 +36,50 @@ def set_bg():
 
 set_bg()
 
-# ===== TITLE =====
+# ===== TITLE (JOINED GEARS) =====
 st.markdown("""
-<div style="text-align:center; margin-top:-30px;">
-    <h1 style="font-size:40px; font-weight:700; letter-spacing:1px;">
+<div style="text-align:center; margin-top:-50px;">
+    <h1 style="font-size:40px; font-weight:700;">
         <span style="color:#FF8C00;">⚙️</span>
-        <span style="color:black; margin-left:-18px; font-size:28px;">⚙️</span>
-        <span style="color:#FF8C00; margin-left:10px;">
+        <span style="color:black; margin-left:-24px; font-size:30px;">⚙️</span>
+        <span style="color:#FF8C00; margin-left:12px;">
             Cooling Tower Gear Temp. AI Dashboard
         </span>
     </h1>
 </div>
 """, unsafe_allow_html=True)
 
-# ===== DATA =====
+# ===== LOAD DATA =====
 data = pd.read_csv("cooling_data.csv")
+
 X = data[['Load', 'Ambient_Temp', 'RPM', 'Oil_Condition']]
 y = data['Temperature']
 
 model = LinearRegression()
 model.fit(X, y)
 
-# ===== LAYOUT =====
-left, right = st.columns(2)
+# ===== LAYOUT WITH GAP =====
+left, gap, right = st.columns([1, 0.15, 1])
 
-# ===== LEFT (INPUT) =====
+# ===== LEFT SIDE =====
 with left:
-    st.markdown('<div class="section-title">Enter Parameters</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">⚙️ Enter Parameters</div>', unsafe_allow_html=True)
 
     load = st.slider("Load", 50, 100)
-    temp = st.slider("Ambient Temp", 25, 50)
-    rpm = st.slider("RPM", 1200, 1800)
-    oil = st.slider("Oil Condition", 40, 100)
+    temp = st.slider("🌡️ Ambient Temp", 25, 50)
+    rpm = st.slider("⚡ RPM", 1200, 1800)
+    oil = st.slider("🛢️ Oil Condition", 40, 100)
 
-# ===== RIGHT (RESULT) =====
+# ===== RIGHT SIDE =====
 with right:
-    st.markdown('<div class="section-title">Prediction Summary</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
 
     pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
-    # BIG TEMP DISPLAY
     st.markdown(f"""
     <h2 style="color:#FFD580;">
         {pred_value:.1f}
-        <span style="font-size:16px;">°C</span>
+        <span style="font-size:18px;">°C</span>
     </h2>
     """, unsafe_allow_html=True)
 
@@ -89,8 +90,7 @@ with right:
     else:
         st.success("🟢 Safe")
 
-    # ===== SUGGESTIONS =====
-    st.markdown('<div class="section-title">Suggestions</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">💡 Suggestions</div>', unsafe_allow_html=True)
 
     if rpm > 1500:
         st.warning("Reduce RPM to control heat")
@@ -106,7 +106,7 @@ with right:
 
 # ===== GRAPH SECTION =====
 st.markdown("---")
-st.markdown('<div class="section-title">Analysis</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">📈 Analysis</div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
@@ -124,7 +124,7 @@ with col2:
     ax2.set_ylabel("Temperature")
     st.pyplot(fig2)
 
-# ===== PDF =====
+# ===== PDF FUNCTION =====
 def create_pdf(load, temp, rpm, oil, result):
     file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
     doc = SimpleDocTemplate(file.name)
@@ -142,6 +142,7 @@ def create_pdf(load, temp, rpm, oil, result):
     doc.build(content)
     return file.name
 
+# ===== DOWNLOAD =====
 st.markdown("---")
 
 if st.button("📁 Download PDF Report"):
