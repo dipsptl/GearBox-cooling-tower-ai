@@ -7,48 +7,49 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 import tempfile
 
-# ===== PAGE SETTINGS =====
 st.set_page_config(page_title="Cooling Tower AI", layout="wide")
 
-st.write("")  # keep UI active
-
-# ===== BACKGROUND (SAFE) =====
+# ===== BACKGROUND =====
 def set_bg():
     try:
         with open("bg.jpg", "rb") as f:
             data = f.read()
         encoded = base64.b64encode(data).decode()
 
-        bg_style = f"""
+        st.markdown(f"""
         <style>
         .stApp {{
             background-image: url("data:image/jpg;base64,{encoded}");
             background-size: cover;
-            background-position: center;
+        }}
+
+        .section-title {{
+            color: #FFD580;
+            font-size: 22px;
+            font-weight: 600;
         }}
         </style>
-        """
-
-        st.markdown(bg_style, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     except:
-        st.write("")  # prevent crash
+        pass
 
 set_bg()
 
 # ===== TITLE =====
 st.markdown("""
-<div style="text-align:center; margin-top:-20px;">
-    <h1 style="font-size:40px; font-weight:700;">
+<div style="text-align:center; margin-top:-30px;">
+    <h1 style="font-size:40px; font-weight:700; letter-spacing:1px;">
         <span style="color:#FF8C00;">⚙️</span>
-        <span style="color:black; font-size:26px;">⚙️</span>
-        <span style="color:#FF8C00;"> Cooling Tower AI Dashboard</span>
+        <span style="color:black; margin-left:-18px; font-size:28px;">⚙️</span>
+        <span style="color:#FF8C00; margin-left:10px;">
+            Cooling Tower Gear Temp. AI Dashboard
+        </span>
     </h1>
 </div>
 """, unsafe_allow_html=True)
 
-# ===== LOAD DATA =====
+# ===== DATA =====
 data = pd.read_csv("cooling_data.csv")
-
 X = data[['Load', 'Ambient_Temp', 'RPM', 'Oil_Condition']]
 y = data['Temperature']
 
@@ -58,21 +59,28 @@ model.fit(X, y)
 # ===== LAYOUT =====
 left, right = st.columns(2)
 
-# ===== INPUT =====
+# ===== LEFT (INPUT) =====
 with left:
-    st.markdown("## 🔧 Enter Parameters")
+    st.markdown('<div class="section-title">Enter Parameters</div>', unsafe_allow_html=True)
 
     load = st.slider("Load", 50, 100)
     temp = st.slider("Ambient Temp", 25, 50)
     rpm = st.slider("RPM", 1200, 1800)
     oil = st.slider("Oil Condition", 40, 100)
 
-# ===== RESULT =====
+# ===== RIGHT (RESULT) =====
 with right:
+    st.markdown('<div class="section-title">Prediction Summary</div>', unsafe_allow_html=True)
+
     pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
-    st.markdown("### 📊 Prediction Summary")
-    st.metric("Temperature (°C)", f"{pred_value:.2f}")
+    # BIG TEMP DISPLAY
+    st.markdown(f"""
+    <h2 style="color:#FFD580;">
+        {pred_value:.1f}
+        <span style="font-size:16px;">°C</span>
+    </h2>
+    """, unsafe_allow_html=True)
 
     if pred_value > 90:
         st.error("🔴 Danger")
@@ -81,7 +89,8 @@ with right:
     else:
         st.success("🟢 Safe")
 
-    st.markdown("### 💡 Suggestions")
+    # ===== SUGGESTIONS =====
+    st.markdown('<div class="section-title">Suggestions</div>', unsafe_allow_html=True)
 
     if rpm > 1500:
         st.warning("Reduce RPM to control heat")
@@ -95,9 +104,9 @@ with right:
     if temp > 35:
         st.warning("High ambient temp – improve cooling")
 
-# ===== GRAPHS =====
+# ===== GRAPH SECTION =====
 st.markdown("---")
-st.subheader("📈 Analysis")
+st.markdown('<div class="section-title">Analysis</div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
@@ -133,7 +142,6 @@ def create_pdf(load, temp, rpm, oil, result):
     doc.build(content)
     return file.name
 
-# ===== DOWNLOAD =====
 st.markdown("---")
 
 if st.button("📁 Download PDF Report"):
