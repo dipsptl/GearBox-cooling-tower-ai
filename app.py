@@ -122,7 +122,7 @@ with right:
     else:
         st.success("🟢 Safe")
 
-   st.markdown("<div style='margin-top:5px;'></div>", unsafe_allow_html=True)
+    st.write("")   # 👈 clean gap
 
     st.markdown('<div class="section-title">💡 Suggestions</div>', unsafe_allow_html=True)
 
