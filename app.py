@@ -33,8 +33,9 @@ def set_bg():
 
     .stApp {{
         background:
-        linear-gradient(rgba(0,0,0,0.82),
-        rgba(0,0,0,0.82)),
+        linear-gradient(
+        rgba(0,0,0,0.84),
+        rgba(0,0,0,0.84)),
         url("data:image/jpg;base64,{encoded}");
 
         background-size: cover;
@@ -43,94 +44,131 @@ def set_bg():
     }}
 
     .block-container {{
-        padding-top: 0.5rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        max-width: 100%;
+        padding-top: 0.4rem;
+        padding-left: 1.8rem;
+        padding-right: 1.8rem;
+        max-width: 1450px;
     }}
 
     section[data-testid="stSidebar"] {{
         display:none;
     }}
 
-    .glass {{
-        background: rgba(0,0,0,0.55);
-        border: 1px solid rgba(255,140,0,0.35);
-        border-radius: 18px;
-        padding: 18px;
-        backdrop-filter: blur(6px);
+    header {{
+        visibility:hidden;
     }}
+
+    footer {{
+        visibility:hidden;
+    }}
+
+    /* MAIN CARDS */
+
+    .glass {{
+        background: rgba(0,0,0,0.58);
+        border: 1px solid rgba(255,140,0,0.28);
+        border-radius: 18px;
+        padding: 14px;
+        backdrop-filter: blur(6px);
+        margin-bottom: 12px;
+    }}
+
+    /* TITLES */
 
     .title {{
         color:white;
-        font-size:42px;
+        font-size:30px;
         font-weight:700;
-        margin-bottom:8px;
+        margin-bottom:6px;
     }}
 
     .sub {{
         color:#cfcfcf;
-        font-size:17px;
+        font-size:14px;
         line-height:1.5;
     }}
 
     .section {{
         color:#ff8800;
-        font-size:22px;
+        font-size:18px;
         font-weight:700;
-        margin-bottom:10px;
+        margin-bottom:8px;
     }}
+
+    /* PREDICTION */
 
     .predict {{
         color:white;
-        font-size:64px;
+        font-size:42px;
         font-weight:800;
         line-height:1;
     }}
 
     .safe {{
-        background:rgba(0,120,20,0.65);
-        padding:16px;
-        border-radius:14px;
+        background:rgba(0,120,25,0.65);
+        padding:12px;
+        border-radius:12px;
         color:#7dff8a;
-        font-size:24px;
+        font-size:18px;
         font-weight:700;
         text-align:center;
     }}
 
     .warn {{
-        background:rgba(255,180,0,0.10);
-        border:1px solid rgba(255,180,0,0.35);
-        padding:12px;
+        background:rgba(255,180,0,0.08);
+        border:1px solid rgba(255,180,0,0.22);
+        padding:9px;
         border-radius:10px;
         color:white;
-        margin-bottom:8px;
-        font-size:15px;
+        margin-bottom:7px;
+        font-size:13px;
     }}
 
+    /* STATUS BOX */
+
     .status {{
-        background:rgba(0,0,0,0.55);
-        border:1px solid rgba(255,140,0,0.35);
-        border-radius:16px;
-        padding:14px;
+        background:rgba(0,0,0,0.58);
+        border:1px solid rgba(255,140,0,0.25);
+        border-radius:14px;
+        padding:10px;
         color:white;
         text-align:center;
-        font-size:18px;
+        font-size:14px;
+        margin-top:12px;
     }}
+
+    /* BUTTON */
 
     .stButton > button {{
         width:100%;
-        height:55px;
+        height:44px;
         border:none;
-        border-radius:12px;
+        border-radius:10px;
         color:white;
-        font-size:20px;
+        font-size:16px;
         font-weight:700;
-        background:linear-gradient(90deg,#ff8800,#00cfff);
+
+        background:linear-gradient(
+        90deg,
+        #ff8800,
+        #00cfff
+        );
     }}
+
+    /* LABELS */
 
     label {{
         color:white !important;
+        font-size:14px !important;
+    }}
+
+    /* GRAPH */
+
+    .graph-card {{
+        background: rgba(0,0,0,0.58);
+        border: 1px solid rgba(255,140,0,0.25);
+        border-radius: 16px;
+        padding: 10px;
     }}
 
     </style>
@@ -151,15 +189,17 @@ model = LinearRegression()
 model.fit(X, y)
 
 # ======================================================
-# TOP HEADER
+# HEADER
 # ======================================================
 
-top1, top2 = st.columns([5,1])
+top1, top2 = st.columns([6,1])
 
 with top1:
-    st.image("logo.png", width=300)
+
+    st.image("logo.png", width=220)
 
 with top2:
+
     st.markdown("""
     <div class="status">
         🟢 System Operational
@@ -170,54 +210,81 @@ with top2:
 # MAIN LAYOUT
 # ======================================================
 
-left, right = st.columns([1,1])
+left, right = st.columns(
+    [0.9,1.1],
+    gap="medium"
+)
 
 # ======================================================
-# LEFT
+# LEFT PANEL
 # ======================================================
 
 with left:
 
     st.markdown("""
     <div class="glass">
-        <div class="title">AI Dashboard</div>
+
+        <div class="title">
+            AI Dashboard
+        </div>
 
         <div class="sub">
             Enter parameters to get AI-powered
             temperature predictions and system insights.
         </div>
 
-        <br>
-
-        <div class="glass">
-
-            <div class="section">
-                ⚙️ Enter Parameters
-            </div>
-    """, unsafe_allow_html=True)
-
-    load = st.slider("Load", 50, 100, 70)
-
-    temp = st.slider("Ambient Temp", 25, 50, 30)
-
-    rpm = st.slider("RPM", 1200, 1800, 1450)
-
-    oil = st.slider("Oil Condition", 40, 100, 75)
-
-    st.button("PREDICT TEMPERATURE")
-
-    st.markdown("""
-        </div>
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("""
+    <div class="glass">
+
+        <div class="section">
+            ⚙️ Enter Parameters
+        </div>
+    """, unsafe_allow_html=True)
+
+    load = st.slider(
+        "Load",
+        50,
+        100,
+        70
+    )
+
+    temp = st.slider(
+        "Ambient Temp",
+        25,
+        50,
+        30
+    )
+
+    rpm = st.slider(
+        "RPM",
+        1200,
+        1800,
+        1450
+    )
+
+    oil = st.slider(
+        "Oil Condition",
+        40,
+        100,
+        75
+    )
+
+    st.button("PREDICT TEMPERATURE")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
 # ======================================================
-# RIGHT
+# RIGHT PANEL
 # ======================================================
 
 with right:
 
-    pred = model.predict([[load, temp, rpm, oil]])[0]
+    pred = model.predict(
+        [[load, temp, rpm, oil]]
+    )[0]
 
     st.markdown(f"""
     <div class="glass">
@@ -228,7 +295,9 @@ with right:
 
         <div class="predict">
             {pred:.1f}
-            <span style="font-size:30px;">°C</span>
+            <span style="font-size:22px;">
+            °C
+            </span>
         </div>
 
         <br>
@@ -242,27 +311,32 @@ with right:
         <div class="section">
             💡 Suggestions
         </div>
+
     """, unsafe_allow_html=True)
 
     if rpm > 1500:
+
         st.markdown(
             '<div class="warn">⚠️ Reduce RPM to control heat</div>',
             unsafe_allow_html=True
         )
 
     if oil < 60:
+
         st.markdown(
             '<div class="warn">⚠️ Oil condition poor – maintenance needed</div>',
             unsafe_allow_html=True
         )
 
     if load > 75:
+
         st.markdown(
             '<div class="warn">⚠️ High load – reduce load</div>',
             unsafe_allow_html=True
         )
 
     if temp > 35:
+
         st.markdown(
             '<div class="warn">⚠️ High ambient temp – improve cooling</div>',
             unsafe_allow_html=True
@@ -274,11 +348,11 @@ with right:
 # ANALYSIS
 # ======================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
-
 st.markdown("""
 <div class="glass">
-    <div class="section">📈 Analysis</div>
+    <div class="section">
+        📈 Analysis
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -290,22 +364,50 @@ g1, g2 = st.columns(2)
 
 with g1:
 
-    fig1, ax1 = plt.subplots(figsize=(6,3))
+    st.markdown(
+        '<div class="graph-card">',
+        unsafe_allow_html=True
+    )
+
+    fig1, ax1 = plt.subplots(
+        figsize=(5.8,2.8)
+    )
 
     fig1.patch.set_facecolor("#050505")
     ax1.set_facecolor("#050505")
 
-    ax1.scatter(data['Load'], data['Temperature'])
+    ax1.scatter(
+        data['Load'],
+        data['Temperature'],
+        s=35
+    )
 
-    ax1.set_xlabel("Load (%)", color="white")
-    ax1.set_ylabel("Temperature", color="white")
+    ax1.set_xlabel(
+        "Load (%)",
+        color="white",
+        fontsize=9
+    )
 
-    ax1.tick_params(colors='white')
+    ax1.set_ylabel(
+        "Temperature",
+        color="white",
+        fontsize=9
+    )
+
+    ax1.tick_params(
+        colors='white',
+        labelsize=8
+    )
 
     for spine in ax1.spines.values():
         spine.set_color("#666")
 
     st.pyplot(fig1)
+
+    st.markdown(
+        '</div>',
+        unsafe_allow_html=True
+    )
 
 # ======================================================
 # GRAPH 2
@@ -313,25 +415,53 @@ with g1:
 
 with g2:
 
-    fig2, ax2 = plt.subplots(figsize=(6,3))
+    st.markdown(
+        '<div class="graph-card">',
+        unsafe_allow_html=True
+    )
+
+    fig2, ax2 = plt.subplots(
+        figsize=(5.8,2.8)
+    )
 
     fig2.patch.set_facecolor("#050505")
     ax2.set_facecolor("#050505")
 
-    ax2.scatter(data['RPM'], data['Temperature'])
+    ax2.scatter(
+        data['RPM'],
+        data['Temperature'],
+        s=35
+    )
 
-    ax2.set_xlabel("RPM", color="white")
-    ax2.set_ylabel("Temperature", color="white")
+    ax2.set_xlabel(
+        "RPM",
+        color="white",
+        fontsize=9
+    )
 
-    ax2.tick_params(colors='white')
+    ax2.set_ylabel(
+        "Temperature",
+        color="white",
+        fontsize=9
+    )
+
+    ax2.tick_params(
+        colors='white',
+        labelsize=8
+    )
 
     for spine in ax2.spines.values():
         spine.set_color("#666")
 
     st.pyplot(fig2)
 
+    st.markdown(
+        '</div>',
+        unsafe_allow_html=True
+    )
+
 # ======================================================
-# PDF
+# PDF FUNCTION
 # ======================================================
 
 def create_pdf(load, temp, rpm, oil, result):
@@ -348,7 +478,10 @@ def create_pdf(load, temp, rpm, oil, result):
     content = []
 
     content.append(
-        Paragraph("THERMOLYTIX REPORT", styles['Title'])
+        Paragraph(
+            "THERMOLYTIX REPORT",
+            styles['Title']
+        )
     )
 
     content.append(
@@ -368,7 +501,10 @@ def create_pdf(load, temp, rpm, oil, result):
     )
 
     content.append(
-        Paragraph(f"Predicted Temp: {result:.2f} °C", styles['Normal'])
+        Paragraph(
+            f"Predicted Temp: {result:.2f} °C",
+            styles['Normal']
+        )
     )
 
     doc.build(content)
@@ -383,7 +519,13 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 if st.button("📁 Download PDF Report"):
 
-    pdf = create_pdf(load, temp, rpm, oil, pred)
+    pdf = create_pdf(
+        load,
+        temp,
+        rpm,
+        oil,
+        pred
+    )
 
     with open(pdf, "rb") as f:
 
