@@ -52,7 +52,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 }}
 
 .block-container {{
-    padding: 0.4rem 1rem 0 1rem !important;
+    padding: 0.2rem 0.6rem 0 0.6rem !important;
     max-width: 100% !important;
 }}
 
@@ -66,25 +66,9 @@ footer {{ display: none !important; }}
 .logo-wrap {{
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 6px 0 4px 0;
+    padding: 2px 0 2px 0;
 }}
-.logo-img {{ width: 110px; }}
-.logo-title {{
-    color: #ff8800;
-    font-size: 30px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    line-height: 1;
-    font-family: 'Arial Black', sans-serif;
-}}
-.logo-sub {{
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    margin-top: 3px;
-}}
+.logo-img {{ width: 140px; }}
 
 /* ── STATUS BADGE ── */
 .status-box {{
@@ -106,33 +90,33 @@ footer {{ display: none !important; }}
 .card {{
     background: rgba(15,15,25,0.82);
     border: 1px solid rgba(255,140,0,0.25);
-    border-radius: 12px;
-    padding: 12px 14px;
+    border-radius: 10px;
+    padding: 6px 10px;
     backdrop-filter: blur(8px);
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }}
 
 /* ── SECTION TITLES ── */
 .sec-title {{
     color: #ff8800;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }}
 
 /* ── DASHBOARD TITLE CARD ── */
 .dash-title {{
     color: white;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 800;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 }}
 .dash-sub {{
     color: #aaaaaa;
-    font-size: 11px;
+    font-size: 10px;
 }}
 
 /* ── SLIDERS ── */
@@ -151,20 +135,20 @@ footer {{ display: none !important; }}
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 6px;
     color: white;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    min-width: 52px;
+    min-width: 46px;
     text-align: center;
-    padding: 4px 6px;
+    padding: 2px 4px;
 }}
 .val-unit {{
     color: #888;
-    font-size: 11px;
-    min-width: 28px;
+    font-size: 10px;
+    min-width: 24px;
 }}
-.row-icon {{ font-size: 16px; min-width: 20px; text-align: center; padding-top: 14px; }}
-.row-label {{ color: #cccccc; font-size: 12px; min-width: 90px; padding-top: 16px; }}
-.row-right {{ display: flex; align-items: center; gap: 6px; padding-top: 12px; }}
+.row-icon {{ font-size: 14px; min-width: 18px; text-align: center; padding-top: 10px; }}
+.row-label {{ color: #cccccc; font-size: 11px; min-width: 80px; padding-top: 12px; }}
+.row-right {{ display: flex; align-items: center; gap: 4px; padding-top: 8px; }}
 
 /* ── PREDICT BUTTON ── */
 .stButton > button {{
@@ -173,36 +157,36 @@ footer {{ display: none !important; }}
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 800;
-    height: 42px;
+    height: 36px;
     letter-spacing: 1px;
-    margin-top: 4px;
+    margin-top: 2px;
 }}
 
 /* ── PREDICTION TEMP ── */
 .pred-num {{
-    font-size: 58px;
+    font-size: 46px;
     font-weight: 900;
     color: white;
     line-height: 1;
-    margin: 6px 0 4px 0;
+    margin: 3px 0 3px 0;
     font-family: 'Arial Black', sans-serif;
 }}
-.pred-deg {{ font-size: 26px; color: #cccccc; font-weight: 400; }}
+.pred-deg {{ font-size: 22px; color: #cccccc; font-weight: 400; }}
 
 /* ── SAFE PILL ── */
 .safe-pill {{
     background: #004d1f;
     border-radius: 6px;
-    padding: 7px 14px;
+    padding: 5px 12px;
     color: #4dff88;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 6px 0 0 0;
+    gap: 7px;
+    margin: 4px 0 0 0;
 }}
 
 /* ── WARN PILLS ── */
@@ -210,13 +194,13 @@ footer {{ display: none !important; }}
     background: rgba(80,60,0,0.55);
     border: 1px solid rgba(200,160,0,0.25);
     border-radius: 6px;
-    padding: 7px 10px;
+    padding: 5px 8px;
     color: #e8d080;
-    font-size: 12px;
-    margin-bottom: 5px;
+    font-size: 11px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }}
 
 /* ── ANALYSIS ── */
@@ -232,8 +216,8 @@ footer {{ display: none !important; }}
 .graph-card {{
     background: rgba(15,15,25,0.82);
     border: 1px solid rgba(255,140,0,0.25);
-    border-radius: 12px;
-    padding: 8px 10px;
+    border-radius: 10px;
+    padding: 4px 6px;
     backdrop-filter: blur(8px);
 }}
 
@@ -263,10 +247,6 @@ with h1:
     st.markdown(f"""
     <div class="logo-wrap">
         <img class="logo-img" src="data:image/png;base64,{logo}">
-        <div>
-            <div class="logo-title">THERMOLYTIX</div>
-            <div class="logo-sub">GEARBOX THERMAL ANALYTICS</div>
-        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -376,7 +356,7 @@ st.markdown('<div class="analysis-bar">📈 Analysis</div>', unsafe_allow_html=T
 g1, g2 = st.columns(2, gap="small")
 
 def make_chart(xdata, ydata, title, xlabel, ylabel):
-    fig, ax = plt.subplots(figsize=(4.5, 2.2))
+    fig, ax = plt.subplots(figsize=(4.5, 1.8))
     ax.scatter(xdata, ydata, s=30, color='#3399ff', alpha=0.85, zorder=3)
     ax.set_facecolor("#0a0e1a")
     fig.patch.set_facecolor("#0a0e1a")
