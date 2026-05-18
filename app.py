@@ -8,18 +8,18 @@ import tempfile
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
-# ======================================================
+# =====================================================
 # PAGE CONFIG
-# ======================================================
+# =====================================================
 
 st.set_page_config(
     page_title="THERMOLYTIX",
     layout="wide"
 )
 
-# ======================================================
+# =====================================================
 # BACKGROUND
-# ======================================================
+# =====================================================
 
 def set_bg():
 
@@ -34,8 +34,8 @@ def set_bg():
     .stApp {{
         background:
         linear-gradient(
-        rgba(0,0,0,0.84),
-        rgba(0,0,0,0.84)),
+        rgba(0,0,0,0.88),
+        rgba(0,0,0,0.88)),
         url("data:image/jpg;base64,{encoded}");
 
         background-size: cover;
@@ -44,14 +44,10 @@ def set_bg():
     }}
 
     .block-container {{
-        padding-top: 0.4rem;
-        padding-left: 1.8rem;
-        padding-right: 1.8rem;
-        max-width: 1450px;
-    }}
-
-    section[data-testid="stSidebar"] {{
-        display:none;
+        padding-top: 0.2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 1280px;
     }}
 
     header {{
@@ -62,35 +58,39 @@ def set_bg():
         visibility:hidden;
     }}
 
-    /* MAIN CARDS */
+    section[data-testid="stSidebar"] {{
+        display:none;
+    }}
+
+    /* MAIN BOX */
 
     .glass {{
-        background: rgba(0,0,0,0.58);
-        border: 1px solid rgba(255,140,0,0.28);
-        border-radius: 18px;
-        padding: 14px;
-        backdrop-filter: blur(6px);
-        margin-bottom: 12px;
+        background: rgba(0,0,0,0.52);
+        border: 1px solid rgba(255,140,0,0.22);
+        border-radius: 16px;
+        padding: 10px;
+        margin-bottom: 8px;
+        backdrop-filter: blur(4px);
     }}
 
     /* TITLES */
 
     .title {{
         color:white;
-        font-size:30px;
+        font-size:22px;
         font-weight:700;
         margin-bottom:6px;
     }}
 
     .sub {{
         color:#cfcfcf;
-        font-size:14px;
+        font-size:12px;
         line-height:1.5;
     }}
 
     .section {{
         color:#ff8800;
-        font-size:18px;
+        font-size:16px;
         font-weight:700;
         margin-bottom:8px;
     }}
@@ -99,54 +99,55 @@ def set_bg():
 
     .predict {{
         color:white;
-        font-size:42px;
+        font-size:34px;
         font-weight:800;
-        line-height:1;
     }}
 
     .safe {{
         background:rgba(0,120,25,0.65);
-        padding:12px;
-        border-radius:12px;
+        padding:10px;
+        border-radius:10px;
         color:#7dff8a;
-        font-size:18px;
-        font-weight:700;
+        font-size:15px;
         text-align:center;
+        font-weight:700;
     }}
+
+    /* WARNING */
 
     .warn {{
         background:rgba(255,180,0,0.08);
-        border:1px solid rgba(255,180,0,0.22);
-        padding:9px;
-        border-radius:10px;
+        border:1px solid rgba(255,180,0,0.18);
+        padding:8px;
+        border-radius:8px;
         color:white;
-        margin-bottom:7px;
-        font-size:13px;
+        margin-bottom:6px;
+        font-size:12px;
     }}
 
-    /* STATUS BOX */
+    /* STATUS */
 
     .status {{
-        background:rgba(0,0,0,0.58);
-        border:1px solid rgba(255,140,0,0.25);
-        border-radius:14px;
-        padding:10px;
-        color:white;
+        background:rgba(0,0,0,0.5);
+        border:1px solid rgba(255,140,0,0.2);
+        border-radius:12px;
+        padding:8px;
         text-align:center;
-        font-size:14px;
-        margin-top:12px;
+        color:white;
+        font-size:13px;
+        margin-top:8px;
     }}
 
     /* BUTTON */
 
     .stButton > button {{
         width:100%;
-        height:44px;
+        height:38px;
         border:none;
         border-radius:10px;
-        color:white;
-        font-size:16px;
+        font-size:14px;
         font-weight:700;
+        color:white;
 
         background:linear-gradient(
         90deg,
@@ -155,20 +156,9 @@ def set_bg():
         );
     }}
 
-    /* LABELS */
-
     label {{
         color:white !important;
-        font-size:14px !important;
-    }}
-
-    /* GRAPH */
-
-    .graph-card {{
-        background: rgba(0,0,0,0.58);
-        border: 1px solid rgba(255,140,0,0.25);
-        border-radius: 16px;
-        padding: 10px;
+        font-size:13px !important;
     }}
 
     </style>
@@ -176,9 +166,9 @@ def set_bg():
 
 set_bg()
 
-# ======================================================
+# =====================================================
 # DATA
-# ======================================================
+# =====================================================
 
 data = pd.read_csv("cooling_data.csv")
 
@@ -188,15 +178,18 @@ y = data['Temperature']
 model = LinearRegression()
 model.fit(X, y)
 
-# ======================================================
+# =====================================================
 # HEADER
-# ======================================================
+# =====================================================
 
 top1, top2 = st.columns([6,1])
 
 with top1:
 
-    st.image("logo.png", width=220)
+    st.image(
+        "logo.png",
+        width=180
+    )
 
 with top2:
 
@@ -206,18 +199,18 @@ with top2:
     </div>
     """, unsafe_allow_html=True)
 
-# ======================================================
+# =====================================================
 # MAIN LAYOUT
-# ======================================================
+# =====================================================
 
 left, right = st.columns(
-    [0.9,1.1],
+    [1,1],
     gap="medium"
 )
 
-# ======================================================
-# LEFT PANEL
-# ======================================================
+# =====================================================
+# LEFT SIDE
+# =====================================================
 
 with left:
 
@@ -242,6 +235,7 @@ with left:
         <div class="section">
             ⚙️ Enter Parameters
         </div>
+
     """, unsafe_allow_html=True)
 
     load = st.slider(
@@ -276,9 +270,9 @@ with left:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ======================================================
-# RIGHT PANEL
-# ======================================================
+# =====================================================
+# RIGHT SIDE
+# =====================================================
 
 with right:
 
@@ -294,10 +288,7 @@ with right:
         </div>
 
         <div class="predict">
-            {pred:.1f}
-            <span style="font-size:22px;">
-            °C
-            </span>
+            {pred:.1f} °C
         </div>
 
         <br>
@@ -316,61 +307,62 @@ with right:
 
     if rpm > 1500:
 
-        st.markdown(
-            '<div class="warn">⚠️ Reduce RPM to control heat</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <div class="warn">
+            ⚠️ Reduce RPM to control heat
+        </div>
+        """, unsafe_allow_html=True)
 
     if oil < 60:
 
-        st.markdown(
-            '<div class="warn">⚠️ Oil condition poor – maintenance needed</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <div class="warn">
+            ⚠️ Oil condition poor – maintenance needed
+        </div>
+        """, unsafe_allow_html=True)
 
     if load > 75:
 
-        st.markdown(
-            '<div class="warn">⚠️ High load – reduce load</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <div class="warn">
+            ⚠️ High load – reduce load
+        </div>
+        """, unsafe_allow_html=True)
 
     if temp > 35:
 
-        st.markdown(
-            '<div class="warn">⚠️ High ambient temp – improve cooling</div>',
-            unsafe_allow_html=True
-        )
+        st.markdown("""
+        <div class="warn">
+            ⚠️ High ambient temp – improve cooling
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ======================================================
-# ANALYSIS
-# ======================================================
+# =====================================================
+# ANALYSIS TITLE
+# =====================================================
 
 st.markdown("""
 <div class="glass">
-    <div class="section">
-        📈 Analysis
-    </div>
+
+<div class="section">
+📈 Analysis
+</div>
+
 </div>
 """, unsafe_allow_html=True)
 
-g1, g2 = st.columns(2)
+# =====================================================
+# GRAPHS
+# =====================================================
 
-# ======================================================
-# GRAPH 1
-# ======================================================
+g1, g2 = st.columns(2)
 
 with g1:
 
-    st.markdown(
-        '<div class="graph-card">',
-        unsafe_allow_html=True
-    )
-
     fig1, ax1 = plt.subplots(
-        figsize=(5.8,2.8)
+        figsize=(4.8,2.4)
     )
 
     fig1.patch.set_facecolor("#050505")
@@ -379,24 +371,24 @@ with g1:
     ax1.scatter(
         data['Load'],
         data['Temperature'],
-        s=35
+        s=25
     )
 
     ax1.set_xlabel(
         "Load (%)",
         color="white",
-        fontsize=9
+        fontsize=8
     )
 
     ax1.set_ylabel(
         "Temperature",
         color="white",
-        fontsize=9
+        fontsize=8
     )
 
     ax1.tick_params(
         colors='white',
-        labelsize=8
+        labelsize=7
     )
 
     for spine in ax1.spines.values():
@@ -404,24 +396,10 @@ with g1:
 
     st.pyplot(fig1)
 
-    st.markdown(
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-# ======================================================
-# GRAPH 2
-# ======================================================
-
 with g2:
 
-    st.markdown(
-        '<div class="graph-card">',
-        unsafe_allow_html=True
-    )
-
     fig2, ax2 = plt.subplots(
-        figsize=(5.8,2.8)
+        figsize=(4.8,2.4)
     )
 
     fig2.patch.set_facecolor("#050505")
@@ -430,24 +408,24 @@ with g2:
     ax2.scatter(
         data['RPM'],
         data['Temperature'],
-        s=35
+        s=25
     )
 
     ax2.set_xlabel(
         "RPM",
         color="white",
-        fontsize=9
+        fontsize=8
     )
 
     ax2.set_ylabel(
         "Temperature",
         color="white",
-        fontsize=9
+        fontsize=8
     )
 
     ax2.tick_params(
         colors='white',
-        labelsize=8
+        labelsize=7
     )
 
     for spine in ax2.spines.values():
@@ -455,14 +433,9 @@ with g2:
 
     st.pyplot(fig2)
 
-    st.markdown(
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-# ======================================================
+# =====================================================
 # PDF FUNCTION
-# ======================================================
+# =====================================================
 
 def create_pdf(load, temp, rpm, oil, result):
 
@@ -502,7 +475,7 @@ def create_pdf(load, temp, rpm, oil, result):
 
     content.append(
         Paragraph(
-            f"Predicted Temp: {result:.2f} °C",
+            f"Predicted Temperature: {result:.2f} °C",
             styles['Normal']
         )
     )
@@ -511,9 +484,9 @@ def create_pdf(load, temp, rpm, oil, result):
 
     return file.name
 
-# ======================================================
-# DOWNLOAD
-# ======================================================
+# =====================================================
+# DOWNLOAD BUTTON
+# =====================================================
 
 st.markdown("<br>", unsafe_allow_html=True)
 
