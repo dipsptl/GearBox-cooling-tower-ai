@@ -25,7 +25,7 @@ def get_base64(file):
     with open(file, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-bg   = get_base64("bg.jpg")
+bg = get_base64("bg.jpg")
 logo = get_base64("logo.png")
 
 # =====================================================
@@ -35,11 +35,9 @@ logo = get_base64("logo.png")
 st.markdown(f"""
 <style>
 
-* {{ margin: 0; padding: 0; box-sizing: border-box; }}
-
-html, body, [data-testid="stAppViewContainer"] {{
-    height: 100vh;
-    overflow: hidden;
+* {{
+    margin: 0;
+    padding: 0;
 }}
 
 .stApp {{
@@ -47,32 +45,46 @@ html, body, [data-testid="stAppViewContainer"] {{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 100vh;
-    overflow: hidden;
 }}
 
 .block-container {{
-    padding: 0.2rem 0.6rem 0 0.6rem !important;
+    padding-top: 0.3rem !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
     max-width: 100% !important;
 }}
 
 header {{ display: none !important; }}
 #MainMenu {{ display: none !important; }}
 footer {{ display: none !important; }}
-[data-testid="stToolbar"] {{ display: none !important; }}
-[data-testid="stDecoration"] {{ display: none !important; }}
 
-/* ── LOGO ── */
+/* LOGO */
 .logo-wrap {{
     display: flex;
     align-items: center;
-    padding: 2px 0 2px 0;
+    gap: 10px;
+    padding: 4px 0;
 }}
-.logo-img {{ width: 140px; }}
+.logo-img {{ width: 90px; }}
+.logo-title {{
+    color: #ff8800;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    font-family: 'Arial Black', sans-serif;
+}}
+.logo-sub {{
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-top: 2px;
+}}
 
-/* ── STATUS BADGE ── */
-.status-box {{
-    background: rgba(0,0,0,0.7);
+/* STATUS */
+.system-box {{
+    background: rgba(0,0,0,0.65);
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 20px;
     padding: 6px 14px;
@@ -81,157 +93,143 @@ footer {{ display: none !important; }}
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 6px;
     float: right;
-    margin-top: 10px;
+    margin-top: 8px;
 }}
 
-/* ── CARDS ── */
-.card {{
-    background: rgba(15,15,25,0.82);
-    border: 1px solid rgba(255,140,0,0.25);
-    border-radius: 10px;
-    padding: 6px 10px;
-    backdrop-filter: blur(8px);
-    margin-bottom: 5px;
+/* CARDS */
+.main-card {{
+    background: rgba(0,0,0,0.72);
+    border: 1px solid rgba(255,140,0,0.35);
+    border-radius: 12px;
+    padding: 10px 12px;
+    backdrop-filter: blur(6px);
+    margin-bottom: 7px;
 }}
 
-/* ── SECTION TITLES ── */
-.sec-title {{
+.title-orange {{
     color: #ff8800;
     font-size: 12px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+}}
+
+/* BIG TEMP NUMBER */
+.big-number {{
+    font-size: 52px;
+    font-weight: 900;
+    color: white;
+    margin: 4px 0;
+    line-height: 1;
+    font-family: 'Arial Black', sans-serif;
+}}
+.deg-small {{
+    font-size: 22px;
+    color: #cccccc;
+    font-weight: 400;
+}}
+
+/* SAFE BOX */
+.safe-box {{
+    background: #005520;
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: #67ff99;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 6px 0;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
 }}
 
-/* ── DASHBOARD TITLE CARD ── */
-.dash-title {{
-    color: white;
-    font-size: 16px;
-    font-weight: 800;
-    margin-bottom: 2px;
-}}
-.dash-sub {{
-    color: #aaaaaa;
-    font-size: 10px;
-}}
-
-/* ── SLIDERS ── */
-[data-testid="stSlider"] {{ padding: 0 !important; }}
-[data-testid="stSlider"] > div {{ padding: 0 !important; }}
-[data-testid="stSlider"] [data-baseweb="slider"] {{
-    margin-top: 2px !important;
-    margin-bottom: 2px !important;
-}}
-[data-testid="stSlider"] label {{ display: none !important; }}
-.stSlider {{ margin-bottom: 0 !important; }}
-
-/* slider value box */
-.val-box {{
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 6px;
-    color: white;
+/* WARN BOX */
+.warn-box {{
+    background: rgba(80,60,0,0.6);
+    border: 1px solid rgba(200,160,0,0.25);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    color: #e8d080;
     font-size: 12px;
-    font-weight: 700;
-    min-width: 46px;
-    text-align: center;
-    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }}
-.val-unit {{
-    color: #888;
-    font-size: 10px;
-    min-width: 24px;
-}}
-.row-icon {{ font-size: 14px; min-width: 18px; text-align: center; padding-top: 10px; }}
-.row-label {{ color: #cccccc; font-size: 11px; min-width: 80px; padding-top: 12px; }}
-.row-right {{ display: flex; align-items: center; gap: 4px; padding-top: 8px; }}
 
-/* ── PREDICT BUTTON ── */
+/* PREDICT BUTTON */
 .stButton > button {{
     width: 100%;
-    background: linear-gradient(90deg, #ff7700, #00cfff);
+    background: linear-gradient(90deg, #ff8800, #00cfff);
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 800;
-    height: 36px;
+    height: 40px;
     letter-spacing: 1px;
-    margin-top: 2px;
 }}
 
-/* ── PREDICTION TEMP ── */
-.pred-num {{
-    font-size: 46px;
-    font-weight: 900;
-    color: white;
-    line-height: 1;
-    margin: 3px 0 3px 0;
-    font-family: 'Arial Black', sans-serif;
-}}
-.pred-deg {{ font-size: 22px; color: #cccccc; font-weight: 400; }}
+/* SLIDERS */
+[data-testid="stSlider"] {{ padding: 0 !important; }}
+[data-testid="stSlider"] > div {{ padding: 0 !important; }}
+[data-testid="stSlider"] label {{ display: none !important; }}
+.stSlider {{ margin-bottom: 0 !important; }}
 
-/* ── SAFE PILL ── */
-.safe-pill {{
-    background: #004d1f;
-    border-radius: 6px;
-    padding: 5px 12px;
-    color: #4dff88;
-    font-size: 13px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin: 4px 0 0 0;
-}}
-
-/* ── WARN PILLS ── */
-.warn-pill {{
-    background: rgba(80,60,0,0.55);
-    border: 1px solid rgba(200,160,0,0.25);
-    border-radius: 6px;
-    padding: 5px 8px;
-    color: #e8d080;
+.slider-label {{
     font-size: 11px;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    color: #cccccc;
+    margin-bottom: 1px;
+    margin-top: 4px;
 }}
 
-/* ── ANALYSIS ── */
-.analysis-bar {{
-    color: #ff8800;
-    font-size: 14px;
+/* VALUE BADGE */
+.val-badge {{
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
     font-weight: 700;
-    margin: 4px 0 6px 0;
+    min-width: 50px;
+    text-align: center;
+    padding: 3px 5px;
+}}
+.val-unit {{
+    color: #888;
+    font-size: 10px;
+    min-width: 26px;
+}}
+.row-icon {{
+    font-size: 15px;
+    padding-top: 12px;
+    text-align: center;
+    min-width: 18px;
+}}
+.row-label {{
+    color: #cccccc;
+    font-size: 11px;
+    padding-top: 14px;
+    min-width: 80px;
+}}
+.row-val {{
     display: flex;
     align-items: center;
-    gap: 6px;
-}}
-.graph-card {{
-    background: rgba(15,15,25,0.82);
-    border: 1px solid rgba(255,140,0,0.25);
-    border-radius: 10px;
-    padding: 4px 6px;
-    backdrop-filter: blur(8px);
+    gap: 4px;
+    padding-top: 10px;
 }}
 
-/* ── DOWNLOAD BTN ── */
-.dl-wrap .stButton > button {{
-    background: rgba(10,10,20,0.75) !important;
-    border: 1px solid rgba(255,180,0,0.4) !important;
-    color: #ffd060 !important;
-    font-size: 12px !important;
-    height: 34px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.3px !important;
-    width: auto !important;
-    padding: 0 18px !important;
+/* GRAPH */
+.graph-card {{
+    background: rgba(0,0,0,0.72);
+    border: 1px solid rgba(255,140,0,0.35);
+    border-radius: 12px;
+    padding: 6px 8px;
+}}
+
+[data-testid="stMetricValue"] {{
+    font-size: 24px !important;
 }}
 
 </style>
@@ -241,45 +239,58 @@ footer {{ display: none !important; }}
 # HEADER
 # =====================================================
 
-h1, h2 = st.columns([5, 1], gap="small")
+top1, top2 = st.columns([5, 1], gap="small")
 
-with h1:
+with top1:
     st.markdown(f"""
     <div class="logo-wrap">
         <img class="logo-img" src="data:image/png;base64,{logo}">
+        <div>
+            <div class="logo-title">THERMOLYTIX</div>
+            <div class="logo-sub">GEARBOX THERMAL ANALYTICS</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-with h2:
-    st.markdown('<div class="status-box">🟢 System Operational</div>', unsafe_allow_html=True)
+with top2:
+    st.markdown("""
+    <div class="system-box">🟢 System Operational</div>
+    """, unsafe_allow_html=True)
 
 # =====================================================
-# LOAD DATA & MODEL
+# LOAD DATA
 # =====================================================
 
-data  = pd.read_csv("cooling_data.csv")
-X     = data[['Load', 'Ambient_Temp', 'RPM', 'Oil_Condition']]
-y     = data['Temperature']
+data = pd.read_csv("cooling_data.csv")
+
+X = data[['Load', 'Ambient_Temp', 'RPM', 'Oil_Condition']]
+y = data['Temperature']
+
 model = LinearRegression()
 model.fit(X, y)
 
 # =====================================================
-# MAIN COLUMNS
+# MAIN SECTION
 # =====================================================
 
-left, right = st.columns([1.08, 1], gap="small")
+left, right = st.columns([1.05, 1], gap="small")
 
-# ── LEFT ──
+# =====================================================
+# LEFT SIDE
+# =====================================================
+
 with left:
 
+    # Dashboard title card
     st.markdown("""
-    <div class="card">
-        <div class="dash-title">AI Dashboard</div>
-        <div class="dash-sub">Enter parameters to get AI-powered temperature predictions and system insights.</div>
+    <div class="main-card">
+        <h2 style="color:white; font-size:18px; margin:0 0 3px 0;">AI Dashboard</h2>
+        <p style="color:#aaa; font-size:11px; margin:0;">Enter parameters to get AI-powered temperature predictions and system insights.</p>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="card"><div class="sec-title">⚙️ Enter Parameters</div>', unsafe_allow_html=True)
+    # Parameters card with sliders
+    st.markdown('<div class="main-card"><div class="title-orange">⚙️ Enter Parameters</div>', unsafe_allow_html=True)
 
     slider_cfg = [
         ("🏎️", "Load",          "load", 50,   100,  70,   "%"),
@@ -290,7 +301,7 @@ with left:
 
     vals = {}
     for icon, label, key, mn, mx, df, unit in slider_cfg:
-        c1, c2, c3, c4 = st.columns([0.07, 0.19, 0.52, 0.22], gap="small")
+        c1, c2, c3, c4 = st.columns([0.07, 0.18, 0.52, 0.23], gap="small")
         with c1:
             st.markdown(f'<div class="row-icon">{icon}</div>', unsafe_allow_html=True)
         with c2:
@@ -300,8 +311,8 @@ with left:
             vals[key] = v
         with c4:
             st.markdown(
-                f'<div class="row-right">'
-                f'<div class="val-box">{v}</div>'
+                f'<div class="row-val">'
+                f'<div class="val-badge">{v}</div>'
                 f'<div class="val-unit">{unit}</div>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -309,9 +320,12 @@ with left:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    st.button("PREDICT TEMPERATURE  →", use_container_width=True)
+    st.button("PREDICT TEMPERATURE →", use_container_width=True)
 
-# ── RIGHT ──
+# =====================================================
+# RIGHT SIDE
+# =====================================================
+
 with right:
 
     load = vals["load"]
@@ -322,28 +336,24 @@ with right:
     pred_value = model.predict([[load, temp, rpm, oil]])[0]
 
     st.markdown(f"""
-    <div class="card">
-        <div class="sec-title">📊 Prediction Summary</div>
-        <div class="pred-num">{pred_value:.1f} <span class="pred-deg">°C</span></div>
-        <div class="safe-pill">🟢 &nbsp;Safe</div>
+    <div class="main-card">
+        <div class="title-orange">📊 Prediction Summary</div>
+        <div class="big-number">{pred_value:.1f} <span class="deg-small">°C</span></div>
+        <div class="safe-box">🟢 &nbsp;Safe</div>
     </div>
     """, unsafe_allow_html=True)
 
-    suggestions = []
-    if rpm  > 1400: suggestions.append(("⚠️", "Reduce RPM to control heat"))
-    if oil  <   80: suggestions.append(("⚠️", "Oil condition poor – maintenance needed"))
-    if load >   65: suggestions.append(("⚠️", "High load – reduce load"))
-    if temp >   28: suggestions.append(("⚠️", "High ambient temp – improve cooling"))
+    suggestions_html = ""
+    if rpm  > 1400: suggestions_html += '<div class="warn-box">⚠️ Reduce RPM to control heat</div>'
+    if oil  <   80: suggestions_html += '<div class="warn-box">⚠️ Oil condition poor – maintenance needed</div>'
+    if load >   65: suggestions_html += '<div class="warn-box">⚠️ High load – reduce load</div>'
+    if temp >   28: suggestions_html += '<div class="warn-box">⚠️ High ambient temp – improve cooling</div>'
 
-    if suggestions:
-        pills = "".join(
-            f'<div class="warn-pill">{ic} {msg}</div>'
-            for ic, msg in suggestions
-        )
+    if suggestions_html:
         st.markdown(f"""
-        <div class="card">
-            <div class="sec-title">💡 Suggestions</div>
-            {pills}
+        <div class="main-card">
+            <div class="title-orange">💡 Suggestions</div>
+            {suggestions_html}
         </div>
         """, unsafe_allow_html=True)
 
@@ -351,23 +361,25 @@ with right:
 # ANALYSIS SECTION
 # =====================================================
 
-st.markdown('<div class="analysis-bar">📈 Analysis</div>', unsafe_allow_html=True)
+st.markdown("""
+<div style="color:#ff8800; font-size:13px; font-weight:700; margin: 4px 0 5px 0;">📈 Analysis</div>
+""", unsafe_allow_html=True)
 
 g1, g2 = st.columns(2, gap="small")
 
 def make_chart(xdata, ydata, title, xlabel, ylabel):
-    fig, ax = plt.subplots(figsize=(4.5, 1.8))
-    ax.scatter(xdata, ydata, s=30, color='#3399ff', alpha=0.85, zorder=3)
-    ax.set_facecolor("#0a0e1a")
-    fig.patch.set_facecolor("#0a0e1a")
+    fig, ax = plt.subplots(figsize=(4, 2.0))
+    ax.scatter(xdata, ydata, s=30, color='#00bfff', alpha=0.75)
+    ax.set_facecolor("#050b18")
+    fig.patch.set_facecolor("#050b18")
     ax.set_title(title, color="white", fontsize=10, fontweight='bold', pad=4)
     ax.set_xlabel(xlabel, color="white", fontsize=9)
     ax.set_ylabel(ylabel, color="white", fontsize=9)
     ax.tick_params(colors='white', labelsize=8)
     for spine in ax.spines.values():
-        spine.set_edgecolor("#444444")
+        spine.set_color("white")
         spine.set_linewidth(0.5)
-    ax.grid(True, alpha=0.12, color='white', linewidth=0.5)
+    ax.grid(True, alpha=0.1, color='white', linewidth=0.5)
     fig.tight_layout(pad=0.5)
     return fig
 
@@ -408,13 +420,12 @@ def create_pdf(load, temp, rpm, oil, result):
 # DOWNLOAD BUTTON
 # =====================================================
 
-st.markdown('<div class="dl-wrap">', unsafe_allow_html=True)
-if st.button("📁 Download PDF Report"):
+if st.button("📁 Download PDF Report", use_container_width=True):
     pdf = create_pdf(load, temp, rpm, oil, pred_value)
     with open(pdf, "rb") as f:
         st.download_button(
             "⬇ Download Report",
             f,
             file_name="thermolytix_report.pdf",
+            use_container_width=True
         )
-st.markdown('</div>', unsafe_allow_html=True)
